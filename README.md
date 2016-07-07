@@ -7,7 +7,7 @@ GET   - /translations - Out put is JSON response with translations data.
 
 //Here you need to autheticate
 
-//TODO: User registration API
+POST - /user/registration - Register yourself by using API. Body: name='Your name',password='Your password',email='Your email'
 
 POST  - /user/login - To login via API, send POST request with body: name='Your name' and password='Your password'. Server will save the session and log in to your services.
 
