@@ -4,8 +4,11 @@ This is test Nette application where I made API for the future project. You can 
 
 #API:
 GET   - /translations - Out put is JSON response with translations data.
+
 //Here you need to autheticate
+
 //TODO: User registration API
+
 POST  - /user/login - To login via API, send POST request with body: name='Your name' and password='Your password'. Server will save the session and log in to your services.
 
 POST  - /user/logout - To logout via API.
