@@ -20,4 +20,8 @@ class UserModel extends BaseModel{
 		}
 		return $a;
 	}
+	
+	public function createUser($userName,$userPassword,$userEmail){
+		return $this->database->query('INSERT INTO `users` (`name`,`password`,`email`,`role`) VALUES (?,?,?,?)',$userName,$userPassword,$userEmail,'guest');
+	}
 }

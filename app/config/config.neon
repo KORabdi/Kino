@@ -16,16 +16,15 @@ common:
 			errorPresenter: Error
 
 		database:
-			dsn: 'mysql:host=localhost;dbname=mojeap1467830236'
-			user: mojeap1467830236
-			password: tV3MECX
+			dsn: 'mysql:host=127.0.0.1;dbname=kino'
+			user: admin
+			password: admin
 
 		session:
 			expiration: 14 days
 
 
 	services:
-		authenticator: Authenticator
 		router: RouterFactory::createRouter
 
 
