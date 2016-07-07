@@ -24,4 +24,12 @@ class UserModel extends BaseModel{
 	public function createUser($userName,$userPassword,$userEmail){
 		return $this->database->query('INSERT INTO `users` (`name`,`password`,`email`,`role`) VALUES (?,?,?,?)',$userName,$userPassword,$userEmail,'guest');
 	}
+	
+	public function ixExisting($param,$value){
+		if($this->database->table('users')->where($param, $value)->get(1)){
+			return TRUE;
+		}else{
+			return FALSE;
+		}
+	}
 }
