@@ -55,9 +55,6 @@ class UserPresenter extends BasePresenter
 		if($this->database->isExisting('email',$userEmail)){
 			$this->sendAPIResponse(array('error' => 'User name '.$userName.' already taken'));
 		}
-		if($this->database->isExisting($userEmail)){
-			$this->sendAPIResponse(array('error' => 'Email '.$userName.' already taken'));
-		}
 		if($this->database->createUser($userName,$userPassword,$userEmail)){
 			$this->sendAPIResponse(array('success' =>'User '.$userName.' is successfully created'));
 		}else{
