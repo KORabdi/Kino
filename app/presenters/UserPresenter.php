@@ -8,10 +8,10 @@ class UserPresenter extends BasePresenter
 	public function __construct(Nette\Database\Connection $database, Nette\Security\User $storage, Nette\Http\Request $url){
 		parent::__construct($database,$storage,$url);
 		$this->database = new UserModel($database);
-		/*if($this->httpRequest->getMethod() != 'POST'){
+		if($this->httpRequest->getMethod() != 'POST'){
 			$this->error('Wrong request',Nette\Http\Response::S400_BAD_REQUEST);
 			exit;
-		}*/
+		}
 	}
 	public function renderLogin(){	
 		$name = $this->httpRequest->getPost('name');
@@ -46,17 +46,13 @@ class UserPresenter extends BasePresenter
 	}
 	
 	public function renderRegistration(){
-		if($this->httpRequest=='POST'){
-			$userName = $this->httpRequest->getPost('name');
-			$userPassword = $this->httpRequest->getPost('password');
-			$userEmail = $this->httpRequest->getPost('email');
-			if($this->database->createUser($userName,$userPassword,$userEmail)){
-				$this->sendAPIResponse(array('success' =>'User '.$userName.' is successfully created'));
-			}else{
-				$this->sendAPIResponse(array('error' => 'User '.$userName.' already exists'));
-			}
+		$userName = $this->httpRequest->getPost('name');
+		$userPassword = $this->httpRequest->getPost('password');
+		$userEmail = $this->httpRequest->getPost('email');
+		if($this->database->createUser($userName,$userPassword,$userEmail)){
+			$this->sendAPIResponse(array('success' =>'User '.$userName.' is successfully created'));
 		}else{
-			$this->sendAPIResponse(array('error'=>'Wrong method'));
+			$this->sendAPIResponse(array('error' => 'User '.$userName.' already exists'));
 		}
 	}
 }
