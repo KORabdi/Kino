@@ -1,6 +1,6 @@
 # Kino
 
-This is test Nette application where I made API for the future project. You can test is right now on demo website http://mojeapi.funsite.cz/
+This is test API based on Nette which I made for mine future project. You can test is right now on demo website http://mojeapi.funsite.cz/
 
 #API:
 GET   - /translations - Out put is JSON response with translations data.
