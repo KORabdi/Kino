@@ -26,7 +26,7 @@ class UserModel extends BaseModel{
 	}
 	
 	public function ixExisting($param,$value){
-		if($this->database->table('users')->where($param, $value)->get(1)){
+		if(isset($this->database->table('users')->where($param, $value)->get(1))){
 			return TRUE;
 		}else{
 			return FALSE;
