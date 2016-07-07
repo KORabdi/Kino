@@ -46,10 +46,10 @@ class UserPresenter extends BasePresenter
 	}
 	
 	public function renderRegistration(){
-		$userName = $this->httpRequest->getPost('name');
-		$userPassword = $this->httpRequest->getPost('password');
-		$userEmail = $this->httpRequest->getPost('email');
-		if($this->database->createUser($userName,$userPassword,$userEmail) !== null){
+		$userName = $this->check('name');
+		$userPassword = $this->check('password');
+		$userEmail = $this->check('email');
+		if($this->database->createUser($userName,$userPassword,$userEmail)){
 			$this->sendAPIResponse(array('success' =>'User '.$userName.' is successfully created'));
 		}else{
 			$this->sendAPIResponse(array('error' => 'User '.$userName.' already exists'));

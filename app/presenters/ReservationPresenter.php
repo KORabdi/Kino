@@ -21,14 +21,14 @@ class ReservationPresenter extends BasePresenter
 	}
 	public function renderMake(){
 		$idUser = $this->user->getIdentity()->getId();
-		$request = self::check('select');
+		$request = $this->check('select');
 		$translation = $this->translations->getTranslation($request);
 		if(!isset($translation->id_translation)){
 			$this->sendAPIResponse(array('error' => 'Your translation does not exists'));
 			exit;
 		}
-		$column = self::check('column');
-		$row = self::check('row');
+		$column = $this->check('column');
+		$row = $this->check('row');
 		if($this->database->isReserved($column,$row,$request)){
 			$this->sendAPIResponse(array('error' => 'Your sit is taken'));
 			exit;					
@@ -41,20 +41,11 @@ class ReservationPresenter extends BasePresenter
 	}
 	
 	public function renderDelete(){
-			$idReservation = self::check('id_reservation');
+			$idReservation = $this->check('id_reservation');
 			if($this->database->removeReservation($idReservation)){
 				$this->sendAPIResponse(array('status'=> 'OK'));
 			}else{
 				$this->sendAPIResponse(array('error'=> 'Reservation did not removed'));
 			}
-	}
-	
-	private function check($param){
-		$a = $this->httpRequest->getPost($param);
-		if($a === NULL){
-			$this->sendAPIResponse(array('error' => 'You miss '.$param.' parameter'));
-			exit;
-		}
-		return $a;
 	}
 }
