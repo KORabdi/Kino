@@ -3,9 +3,7 @@
 This is test API based on Nette which I made for mine future project. You can test is right now on demo website http://mojeapi.funsite.cz/
 
 #API:
-GET   - /translations - Out put is JSON response with translations data.
-
-//Here you need to autheticate
+GET   - /translations - Output is JSON response with translations data.
 
 POST - /user/registration - Register yourself by using API. Body: name='Your name',password='Your password',email='Your email'
 
