@@ -51,12 +51,12 @@ class UserPresenter extends BasePresenter
 			$userPassword = $this->httpRequest->getPost('password');
 			$userEmail = $this->httpRequest->getPost('email');
 			if($this->database->createUser($userName,$userPassword,$userEmail)){
-				$this->sendAPIRequest(array('success' =>'User '.$userName.' is successfully created'));
+				$this->sendAPIResponse(array('success' =>'User '.$userName.' is successfully created'));
 			}else{
-				$this->sendAPIRequest(array('error' => 'User '.$userName.' already exists'));
+				$this->sendAPIResponse(array('error' => 'User '.$userName.' already exists'));
 			}
 		}else{
-			$this->sendAPIRequest(array('error'=>'Wrong method'));
+			$this->sendAPIResponse(array('error'=>'Wrong method'));
 		}
 	}
 }
