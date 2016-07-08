@@ -25,11 +25,7 @@ class UserModel extends BaseModel{
 		return $this->database->query('INSERT INTO `users` (`name`,`password`,`email`,`role`) VALUES (?,?,?,?)',$userName,$userPassword,$userEmail,'guest');
 	}
 	
-	public function isExisting($param,$value){
-		if($this->database->table('users')->where($param, $value)->fetch()){
-			return TRUE;
-		}else{
-			return FALSE;
-		}
+	public function isUserExisting($param,$value){
+		 return is_null($this->database->table('users')->where($param, $value)->fetch());
 	}
 }
