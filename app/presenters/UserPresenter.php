@@ -47,12 +47,12 @@ class UserPresenter extends BasePresenter
 	
 	public function renderRegistration(){
 		$userName = $this->check('name');
-		if($this->database->isExisting('name',$userName)){
+		if($this->database->isUserExisting('name',$userName)){
 			$this->sendAPIResponse(array('error' => 'User name '.$userName.' already taken'));
 		}
 		$userPassword = $this->check('password');
 		$userEmail = $this->check('email');
-		if($this->database->isExisting('email',$userEmail)){
+		if($this->database->isUserExisting('email',$userEmail)){
 			$this->sendAPIResponse(array('error' => 'User name '.$userName.' already taken'));
 		}
 		if($this->database->createUser($userName,$userPassword,$userEmail)){
