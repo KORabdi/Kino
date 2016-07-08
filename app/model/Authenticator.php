@@ -1,9 +1,5 @@
 <?php
 
-
-/**
- * Users authenticator.
- */
 class Authenticator extends BaseModel
 {
 	const
@@ -18,7 +14,7 @@ class Authenticator extends BaseModel
 	{
 		$row = $this->database->table(self::TABLE_NAME)->where(self::COLUMN_NAME, $username)->fetch();
 		if (!$row) {
-			return NULL;
+			return FALSE;
 
 		} elseif (sha1($password . self::$user_salt)!=$row[self::COLUMN_PASSWORD]) {
 			return FALSE;
