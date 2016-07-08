@@ -21,14 +21,14 @@ class ReservationPresenter extends BasePresenter
 	}
 	public function renderMake(){
 		$idUser = $this->user->getIdentity()->getId();
-		$request = $this->check('select');
+		$request = $this->checkHttpRequest('select');
 		$translation = $this->translations->getTranslation($request);
 		if(!isset($translation->id_translation)){
 			$this->sendAPIResponse(array('error' => 'Your translation does not exists'));
 			exit;
 		}
-		$column = $this->check('column');
-		$row = $this->check('row');
+		$column = $this->checkHttpRequest('column');
+		$row = $this->checkHttpRequest('row');
 		if($this->database->isReserved($column,$row,$request)){
 			$this->sendAPIResponse(array('error' => 'Your sit is taken'));
 			exit;					
@@ -41,7 +41,7 @@ class ReservationPresenter extends BasePresenter
 	}
 	
 	public function renderDelete(){
-			$idReservation = $this->check('id_reservation');
+			$idReservation = $this->checkHttpRequest('id_reservation');
 			if($this->database->removeReservation($idReservation)){
 				$this->sendAPIResponse(array('status'=> 'OK'));
 			}else{

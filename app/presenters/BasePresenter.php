@@ -21,7 +21,7 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter
 		$this->sendResponse(new Nette\Application\Responses\JsonResponse($movie));
 	}
 	
-	public function check($param){
+	public function checkHttpRequest($param){
 		$a = $this->httpRequest->getPost($param);
 		if($a === NULL){
 			$this->sendAPIResponse(array('error' => 'You miss '.$param.' parameter'));
