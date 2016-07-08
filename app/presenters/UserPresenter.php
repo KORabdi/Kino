@@ -19,7 +19,7 @@ class UserPresenter extends BasePresenter
 	public function renderLogin(){	
 		$name = $this->httpRequest->getPost('name');
 		$password = $this->httpRequest->getPost('password');
-		if($this->userLogIn->authenticate($name,$password))
+		if($this->userLogIn->authenticate(array($name,$password)))
 			$this->user->login($name,$password);
 		$this->sendAPIResponse(array('status' => $this->user->isLoggedIn()));
 	}
