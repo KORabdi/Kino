@@ -1,1 +1,1 @@
-<?php //netteCache[01]000070a:2:{s:4:"time";s:21:"0.59570200 1467922085";s:10:"serialized";b:1;}?>a:1:{s:7:"primary";a:2:{s:11:"reservation";s:14:"id_reservation";s:5:"users";s:2:"id";}}
+<?php //netteCache[01]000070a:2:{s:4:"time";s:21:"0.71404400 1467973320";s:10:"serialized";b:1;}?>a:1:{s:7:"primary";a:6:{s:11:"reservation";s:14:"id_reservation";s:5:"users";s:2:"id";s:11:"translation";s:14:"id_translation";s:5:"movie";s:8:"id_movie";s:5:"place";s:8:"id_place";s:10:"place_size";s:13:"id_place_size";}}

@@ -15,10 +15,12 @@ class UserPresenter extends BasePresenter
 			exit;
 		}
 	}
+	
 	public function renderLogin(){	
 		$name = $this->httpRequest->getPost('name');
 		$password = $this->httpRequest->getPost('password');
-		$this->userLogIn->authenticate(array($name,$password));
+		if($this->userLogIn->authenticate($name,$password))
+			$this->user->login($name,$password);
 		$this->sendAPIResponse(array('status' => $this->user->isLoggedIn()));
 	}
 	
@@ -44,6 +46,7 @@ class UserPresenter extends BasePresenter
 			$this->sendAPIResponse(array('error' => 'User name '.$userName.' already taken'));
 		}
 		$userPassword = $this->check('password');
+		$userPassword = sha1($userPassword.$this->userLogIn->user_salt);
 		$userEmail = $this->check('email');
 		if($this->database->isUserExisting('email',$userEmail)){
 			$this->sendAPIResponse(array('error' => 'User name '.$userName.' already taken'));
