@@ -43,7 +43,7 @@ class UserPresenter extends BasePresenter
 	public function renderRegistration(){
 		$userName = self::checkUserData('name');
 		$userPassword = $this->checkHttpRequest('password');
-		$userPassword = $this->userLogIn->getUserPassword($userPassword);
+		$userPassword = $this->userLogIn->getUserPassword($userPassword); 
 		$userEmail = self::checkUserData('email');
 		if($this->database->createUser($userName,$userPassword,$userEmail)){
 			$this->sendAPIResponse(array('success' =>'User '.$userName.' is successfully created'));
