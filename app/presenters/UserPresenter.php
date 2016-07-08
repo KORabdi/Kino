@@ -41,20 +41,22 @@ class UserPresenter extends BasePresenter
 	}
 	
 	public function renderRegistration(){
-		$userName = $this->check('name');
-		if($this->database->isUserExisting('name',$userName)){
-			$this->sendAPIResponse(array('error' => 'User name '.$userName.' already taken'));
-		}
-		$userPassword = $this->check('password');
-		$userPassword = sha1($userPassword.$this->userLogIn->user_salt);
-		$userEmail = $this->check('email');
-		if($this->database->isUserExisting('email',$userEmail)){
-			$this->sendAPIResponse(array('error' => 'User name '.$userName.' already taken'));
-		}
+		$userName = self::checkUserData('name');
+		$userPassword = $this->checkHttpRequest('password');
+		$userPassword = $this->userLogIn->getUserPassword($userPassword);
+		$userEmail = self::checkUserData('email');
 		if($this->database->createUser($userName,$userPassword,$userEmail)){
 			$this->sendAPIResponse(array('success' =>'User '.$userName.' is successfully created'));
 		}else{
 			$this->sendAPIResponse(array('error' => 'User '.$userName.' already exists'));
 		}
+	}
+	
+	public function checkUserData($input){
+		$userInput = $this->checkHttpRequest($input);
+		if($this->database->isUserExisting($input,$userInput)){
+			$this->sendAPIResponse(array('error' => $userInput.' already taken'));
+		}
+		return $userInput;
 	}
 }
