@@ -26,6 +26,10 @@ class UserModel extends BaseModel{
 	}
 	
 	public function isUserExisting($param,$value){
-		 return is_null($this->database->table('users')->where($param, $value)->fetch());
+			if($this->database->table('users')->where($param, $value)->fetch()){
+				return TRUE;
+			}else{
+				return FALSE;
+			}
 	}
 }

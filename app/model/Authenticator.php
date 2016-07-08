@@ -37,5 +37,9 @@ class Authenticator extends BaseModel implements Security\IAuthenticator
 		unset($arr[self::COLUMN_PASSWORD]);
 		return new Nette\Security\Identity($row[self::COLUMN_ID], $row[self::COLUMN_ROLE], $arr);
 	}
+	
+	public function getUserPassword($input){
+		return sha1($input . self::$user_salt);
+	}
 
 }
