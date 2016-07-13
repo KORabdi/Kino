@@ -9,35 +9,39 @@ class ReservationPresenter extends BasePresenter
     public function __construct(Nette\Database\Connection $database, Nette\Security\User $storage, Nette\Http\Request $url){
     	parent::__construct($database,$storage,$url);
     	$this->database = new ReservationModel($database);
-    	$this->translations = new TranslationsModel($database);
+    	$this->translations = new MoviesModel($database);
     }
     
     public function startup() {
         parent::startup();
-        $this->checkPost();
+        $method = $this->httpRequest->getMethod();
+        $this->requestValidation = new requestValid();
+        $this->requestValidation->setMethod($method);
+        $this->requestValidation->checkPost();
         $this->checkUserLogin();
     }
     public function renderMake(){
+        $validation = $this->requestValidation;
         $idUser = $this->user->getIdentity()->getId();
-	$request = $this->checkHttpRequest('select');
-	$translation = $this->translations->getTranslation($request);
-	if(!isset($translation->id_translation)){
-            $this->sendAPIResponse(array('error' => 'Your translation does not exists'));
-        }
-	$column = $this->checkHttpRequest('column');
-	$row = $this->checkHttpRequest('row');
-	if($this->database->isReserved($column,$row,$request)){
-            $this->sendAPIResponse(array('error' => 'Your sit is taken'));	
-	}
-	if($this->database->createReservation($idUser, $translation->id_translation, $column, $row, date('H:i:s'))){
+	$movie = $this->httpRequest->getPost('movie');
+        $column = $this->httpRequest->getPost('column');
+	$row = $this->httpRequest->getPost('row');
+        
+        $validation->checkEmpty($movie,$column,$row);
+        $validation->checkNumeric($movie,$column,$row);
+        $this->database->checkReserved($column,$row,$movie);
+        
+	if($this->database->createReservation($idUser, $movie, $column, $row, date('H:i:s'))){
             $this->sendAPIResponse(array('status'=> 'OK'));
 	}else{
-            $this->sendAPIResponse(array('error'=> 'Reservation did not make'));
+            $this->sendAPIError('Reservation did not make');
 	}
     }
 	
     public function renderDelete(){
-        $idReservation = $this->checkHttpRequest('id_reservation');
+        $idReservation = $this->httpRequest->getPost('id_reservation');
+        $this->requestValidation->checkEmpty($idReservation);
+        $this->requestValidation->checkNumeric($idReservation);
 	if($this->database->removeReservation($idReservation)){
             $this->sendAPIResponse(array('status'=> 'OK'));
 	}else{

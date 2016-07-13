@@ -15,7 +15,10 @@ class UserPresenter extends BasePresenter
         
         public function startup() {
             parent::startup();
-            $this->checkPost();
+            $method = $this->httpRequest->getMethod();
+            $this->requestValidation = new requestValid();
+            $this->requestValidation->setMethod($method);
+            $this->requestValidation->checkPost();
         }
 
 
@@ -40,15 +43,20 @@ class UserPresenter extends BasePresenter
 	}
 
 	public function renderRegistration(){
-            $userName = $this->getRequestParam('name',array('empty','string'));
+            // Getting POST params from request
+            $userName = $this->httpRequest->getPost('name');
+            $userPassword = $this->httpRequest->getPost('password');
+            $userEmail = $this->getRequestParam('email');
+            
+            // Validate them
+            $validation = $this->requestValidation;
+            $validation->checkName($userName);
+            $validation->checkPassword($userPassword);
+            $validation->checkEmail($userEmail);
+            
             self::isUserExisting($userName,'name');
-            $userPassword = $this->getRequestParam('password',array('empty','password'));
-            // TODO: password param
-            $userPasswordHashed = $this->auth->getUserPassword($userPassword); 
-            $userEmail = $this->getRequestParam('email',array('empty','email'));
             self::isUserExisting($userEmail,'email');
-            // TODO: email param PS: Look to Nette\Forms and make something similar with it
-            // TODO: Make database maker
+            $userPasswordHashed = $this->auth->getUserPassword($userPassword); 
             if($this->database->createUser($userName,$userPasswordHashed,$userEmail)){
             	$this->sendAPIResponse(array('success' =>'User '.$userName.' is successfully created'));
             }else{

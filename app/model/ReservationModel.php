@@ -9,11 +9,10 @@ class ReservationModel extends BaseModel{
 		return $this->database->table('reservation')->where('id_reservation',$a)->delete();
 	}
 	
-	public function isReserved($inputColumn,$inputRow,$idTranslation){
+	public function checkReserved($inputColumn,$inputRow,$idTranslation){
 		$place = $this->database->table('reservation')->where(array('reservation_column'=>$inputColumn,'reservation_row'=>$inputRow,'id_translation'=>$idTranslation))->fetch();
-		if(!$place){
-			return FALSE;
+		if($place){
+                    throw new \Exception('Your seat taken');
 		}
-		return TRUE;
 	}
 }
