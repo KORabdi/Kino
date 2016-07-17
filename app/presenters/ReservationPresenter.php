@@ -21,31 +21,29 @@ class ReservationPresenter extends BasePresenter
         $this->checkUserLogin();
     }
     public function renderMake(){
+        // Get data from post
         $validation = $this->requestValidation;
         $idUser = $this->user->getIdentity()->getId();
 	$movie = $this->httpRequest->getPost('movie');
         $column = $this->httpRequest->getPost('column');
 	$row = $this->httpRequest->getPost('row');
         
+        // Check the format
         $validation->checkEmpty($movie,$column,$row);
         $validation->checkNumeric($movie,$column,$row);
         $this->database->checkReserved($column,$row,$movie);
-        
-	if($this->database->createReservation($idUser, $movie, $column, $row, date('H:i:s'))){
-            $this->sendAPIResponse(array('status'=> 'OK'));
-	}else{
-            $this->sendAPIError('Reservation did not make');
-	}
+        // Send data to model to create database query
+        // TODO: ReservationModel check
+	$this->database->createReservation($idUser, $movie, $column, $row, date('H:i:s'));
     }
 	
     public function renderDelete(){
         $idReservation = $this->httpRequest->getPost('id_reservation');
+        
         $this->requestValidation->checkEmpty($idReservation);
         $this->requestValidation->checkNumeric($idReservation);
-	if($this->database->removeReservation($idReservation)){
-            $this->sendAPIResponse(array('status'=> 'OK'));
-	}else{
-            $this->sendAPIResponse(array('error'=> 'Reservation did not removed'));
-	}
+        
+        //TODO: Model Try Catch
+	$this->database->removeReservation($idReservation);
     }
 }
